@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Прогресс-бар</title>
+    <style>
+        .progress-container {
+            width: 300px;
+            margin: 50px auto;
+            text-align: center;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            width: 0%;
+            height: 100%;
+            background-color: #4CAF50;
+            transition: width 0.3s ease-in-out;
+        }
+        
+        .status {
+            margin-top: 10px;
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-container">
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+        </div>
+        <div class="status" id="status">Начало выполнения...</div>
+    </div>
+
+    <script>
+        // Функция для создания задержки
+        const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+        // Функция для обновления прогресс-бара
+        function updateProgress(percent) {
+            const progressBar = document.getElementById('progress');
+            const status = document.getElementById('status');
+            progressBar.style.width = `${percent}%`;
+            status.textContent = `Выполнено: ${percent}%`;
+        }
+
+        // Основная функция выполнения задачи
+        async function runTask() {
+            const totalTime = 5000; // 5 секунд
+            const interval = 1000; // Обновление каждую секунду
+            const steps = totalTime / interval;
+            
+            for (let i = 1; i <= steps; i++) {
+                await delay(interval);
+                const percent = (i / steps) * 100;
+                updateProgress(percent);
+            }
+            
+            document.getElementById('status').textContent = 'Готово!';
+        }
+
+        // Запускаем задачу
+        runTask();
+    </script>
+</body>
+</html> 
